@@ -9,6 +9,7 @@ export class Pokemon {
     constructor(){
         this._id_pokemon = 0;
         this._pokemon = '';
+        this._imagen = '';
         this._habilidades = [];
     }
     
