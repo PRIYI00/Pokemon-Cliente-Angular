@@ -1,3 +1,26 @@
 <h1> {{title}} </h1>
 
 {{pokemons | json}}
+
+<div class="row mb-3"> <!-- Row Detalle -->
+    <div class="col-4"> <!-- Col Listado -->
+        <h2> Pokemons </h2>
+        <ul class="list-group"> 
+            <li *ngFor="let pokemon of pokemons" 
+                (click)="pokemonSeleccionado = pokemon"
+                class="list-group-item {{(pokemon == pokemonSeleccionado)?'active': ''}}">
+                {{pokemon.nombre}}
+            </li>
+        </ul>
+    </div> <!-- /Col Listado -->
+    <div class="col-8"> <!-- Col Detalle -->
+        <div class="card">
+            <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <!-- {{pokemonSeleccionado | json}} -->
+                <p> {{pokemonSeleccionado.id}} </p>
+                <p> {{pokemonSeleccionado.nombre}} </p>
+            </div>
+        </div>
+    </div> <!-- /Col Detalle -->
+</div> <!-- /Row Detalle -->

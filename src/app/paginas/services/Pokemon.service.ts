@@ -14,16 +14,18 @@ export class PokemonService implements IPokemonService {
 
     getAllPokemon(): Observable<Pokemon[]> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon`;
-        console.trace("PokemonService getPokemon " + url);
+        console.trace("PokemonService getAllPokemon " + url);
         return this.http.get<Pokemon[]>(url);
     }    
     getPokemon(nombre: string): Observable<Pokemon[]> {
         throw new Error("Method not implemented.");
     }
-    getPokemonById(id_pokemon: number): import("rxjs").Observable<Pokemon> {
-        throw new Error("Method not implemented.");
+    getPokemonById(id_pokemon: number): Observable<Pokemon> {
+        const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
+        console.trace("PokemonService getPokemonById " + url);
+        return this.http.get<Pokemon>(url);
     }
-    deletePokemon(id_pokemon: number): import("rxjs").Observable<Pokemon> {
+    deletePokemon(id_pokemon: number): Observable<Pokemon> {
         throw new Error("Method not implemented.");
     }
     updatePokemon(id_pokemon: number, pokemon: Pokemon): Observable<Pokemon> {

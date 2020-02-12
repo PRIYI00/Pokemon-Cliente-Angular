@@ -11,6 +11,7 @@ export class InicioComponent implements OnInit {
 
   title: string;
   pokemons: Array<Pokemon>;
+  pokemonSeleccionado: Pokemon;
 
   constructor(private servicioPokemon: PokemonService) { 
     console.trace('InicioComponent Constructor');
