@@ -18,6 +18,6 @@ export class AppComponent {
   } // Constructor
 
   ngOnInit() {
-    console.trace('ngOnInit FiltrosComponent');
+    console.trace('ngOnInit AppComponent');
   } // ngOnInit
 } // AppComponent
