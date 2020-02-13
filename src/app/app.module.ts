@@ -9,12 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { InicioComponent } from './paginas/inicio/inicio.component';
+import { PokemonPipe } from './pipes/pokemon.pipe';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    InicioComponent
+    InicioComponent,
+    PokemonPipe
   ],
   imports: [
     NgbModule,

@@ -1,25 +1,37 @@
-<h1> {{title}} </h1>
+<h2> {{title}} </h2>
 
-{{pokemons | json}}
+<!-- {{pokemons | json}} -->
+
+<div class="row mb-3">
+    <div class="col"> <!-- Col Busqueda -->
+        <input type="search" [(ngModel)]="busqueda" class="form-control" placeholder="Busca Pokemons por su Nombre.">         
+    </div> <!-- /Col Busqueda -->
+</div>
 
 <div class="row mb-3"> <!-- Row Detalle -->
-    <div class="col-4"> <!-- Col Listado -->
+    <div class="col-5"> <!-- Col Listado -->
         <h2> Pokemons </h2>
         <ul class="list-group"> 
-            <li *ngFor="let pokemon of pokemons" 
+            <li *ngFor="let pokemon of pokemons | pokemonFiltro : busqueda" 
                 (click)="pokemonSeleccionado = pokemon"
                 class="list-group-item {{(pokemon == pokemonSeleccionado)?'active': ''}}">
                 {{pokemon.nombre}}
             </li>
         </ul>
     </div> <!-- /Col Listado -->
-    <div class="col-8"> <!-- Col Detalle -->
+    <div class="col-7"> <!-- Col Detalle -->
         <div class="card">
-            <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
+            <ng-template [ngIf]="pokemonSeleccionado" [ngIfElse]="lista">
+                <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
+            </ng-template>
+            <ng-template #lista>
+                <img src="../../../assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="...">
+            </ng-template>
             <div class="card-body">
                 <!-- {{pokemonSeleccionado | json}} -->
                 <p> {{pokemonSeleccionado.id}} </p>
                 <p> {{pokemonSeleccionado.nombre}} </p>
+                <p> {{pokemonSeleccionado.habilidades | json}} </p>
             </div>
         </div>
     </div> <!-- /Col Detalle -->

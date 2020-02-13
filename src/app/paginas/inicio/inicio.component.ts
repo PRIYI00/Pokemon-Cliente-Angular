@@ -12,10 +12,12 @@ export class InicioComponent implements OnInit {
   title: string;
   pokemons: Array<Pokemon>;
   pokemonSeleccionado: Pokemon;
+  busqueda: string;
 
   constructor(private servicioPokemon: PokemonService) { 
     console.trace('InicioComponent Constructor');
     this.title = 'Pokemon Angular';
+    this.busqueda = '';
     this.pokemons = [];
   } // Constructor
 

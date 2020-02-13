@@ -2,13 +2,13 @@ import { Habilidad } from './habilidad';
 
 export class Pokemon {
     private _id_pokemon: number;
-    private _pokemon: string;
+    private _nombre: string;
     private _imagen: string;
     private _habilidades: Array<Habilidad>;
     
     constructor(){
         this._id_pokemon = 0;
-        this._pokemon = '';
+        this._nombre = '';
         this._imagen = '';
         this._habilidades = [];
     }
@@ -20,11 +20,11 @@ export class Pokemon {
         this._id_pokemon = value;
     }
 
-    public get pokemon(): string {
-        return this._pokemon;
+    public get nombre(): string {
+        return this._nombre;
     }
-    public set pokemon(value: string) {
-        this._pokemon = value;
+    public set nombre(value: string) {
+        this._nombre = value;
     }
 
     public get imagen(): string {
