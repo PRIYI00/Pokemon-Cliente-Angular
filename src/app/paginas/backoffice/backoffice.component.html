@@ -1,0 +1,70 @@
+<h2> {{title}} </h2>
+
+<!-- {{pokemons | json}} -->
+
+<div class="row mb-3">
+    <div class="col"> <!-- Col Busqueda -->
+        <input type="search" [(ngModel)]="busqueda" class="form-control" placeholder="Busca Pokemons por su Nombre.">         
+    </div> <!-- /Col Busqueda -->
+</div>
+
+<div class="row mb-3"> <!-- Row Detalle -->
+    <div class="col-5"> <!-- Col Listado -->
+        <h2> Pokemons </h2>
+        <ul class="list-group"> 
+            <li *ngFor="let pokemon of pokemons | pokemonFiltro : busqueda" 
+                (click)="pokemonSeleccionado = pokemon"
+                class="list-group-item {{(pokemon == pokemonSeleccionado)?'active': ''}}">
+                <div class="row">
+                    <div class="col">
+                        <b> {{pokemon.nombre}} </b>
+                    </div>
+                    <div class="col">
+                        <button class="text-danger"> <i class="fas fa-trash"></i> </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div> <!-- /Col Listado -->
+    <div class="col-7"> <!-- Col Detalle -->
+        <button class="btn btn-primary btn-block mb-3"> Crear Pokemon </button>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <ng-template [ngIf]="pokemonSeleccionado" [ngIfElse]="lista">
+                        <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
+                        <div class="card-body row">
+                            <!-- {{pokemonSeleccionado | json}} -->
+                            <p> ID: <b> {{pokemonSeleccionado.id}} </b> </p>
+                            <p> Nombre: <b> {{pokemonSeleccionado.nombre}} </b> </p>
+                            <p> Habilidades: <b> {{pokemonSeleccionado.habilidades | json}} </b> </p>
+                            <button class="btn btn-primary btn-block" (click) = "modificarPokemon(pokemonSeleccionado)"> Modificar Pokemon </button> 
+                        </div>
+                    </ng-template>
+                    <ng-template #lista>
+                        <img src="../../../assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="...">
+                        <div class="card-body"> </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="col">
+                <form [formGroup] = "formularioPokemon" (ngSubmit) = "enviar(formularioPokemon.value)">
+                    <small *ngIf="formularioPokemon.controls.nombre.invalid && formularioPokemon.controls.nombre.dirty"
+                        class="text-danger" >Minimo 2 caracteres Maximo 50 </small>
+        
+                    <small *ngIf="formularioPokemon.controls.nombre.valid"
+                        class="text-success"> Nombre Pokemon Correcto </small> 
+        
+                    <input type="text" formControlName = "nombre"
+                        placeholder = "Nombre Pokemon"
+                        class = "form-control mb-2"/>
+                    
+                    <input  type="submit" 
+                        [disabled] = "formularioPokemon.invalid" 
+                        value="Enviar"
+                        class="btn btn-primary btn-block">
+                </form>
+            </div>
+        </div>
+    </div> <!-- /Col Detalle -->
+</div> <!-- /Row Detalle -->

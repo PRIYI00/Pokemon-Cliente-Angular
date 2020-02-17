@@ -6,18 +6,20 @@ import { Pokemon } from '../model/pokemon';
 })
 export class PokemonPipe implements PipeTransform {
 
-  transform(pokemons: Array<Pokemon>, busqueda: string): any {
+  transform(pokemons: any, busqueda: any): any {
 
     console.debug('PokemonPipe Pokemons %o', pokemons);
-    console.debug('PokemonsPipe Busqueda %s', busqueda);
+    console.debug('PokemonPipe Busqueda %s', busqueda);
 
     let resultado = pokemons;
 
     // Filtrar por Nombre del Pokemon.
     if (busqueda && '' !== busqueda) {
+      busqueda = busqueda.toUpperCase();
       resultado = resultado.filter((el) => {
         console.debug(el);
-        return el.nombre.includes(busqueda);
+        const nombre = el.nombre.toUpperCase();
+        return nombre.includes(busqueda);
       });
     }
     return resultado;

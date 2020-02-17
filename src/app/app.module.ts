@@ -10,13 +10,17 @@ import { AppComponent } from './app.component';
 
 import { InicioComponent } from './paginas/inicio/inicio.component';
 import { PokemonPipe } from './pipes/pokemon.pipe';
+import { NavbarComponent } from './componentes/navbar/navbar.component';
+import { BackofficeComponent } from './paginas/backoffice/backoffice.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     InicioComponent,
-    PokemonPipe
+    PokemonPipe,
+    NavbarComponent,
+    BackofficeComponent
   ],
   imports: [
     NgbModule,

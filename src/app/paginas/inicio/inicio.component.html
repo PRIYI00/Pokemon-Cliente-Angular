@@ -15,7 +15,7 @@
             <li *ngFor="let pokemon of pokemons | pokemonFiltro : busqueda" 
                 (click)="pokemonSeleccionado = pokemon"
                 class="list-group-item {{(pokemon == pokemonSeleccionado)?'active': ''}}">
-                {{pokemon.nombre}}
+                <b> {{pokemon.nombre}} </b>
             </li>
         </ul>
     </div> <!-- /Col Listado -->
@@ -23,16 +23,17 @@
         <div class="card">
             <ng-template [ngIf]="pokemonSeleccionado" [ngIfElse]="lista">
                 <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <!-- {{pokemonSeleccionado | json}} -->
+                    <p> ID: <b> {{pokemonSeleccionado.id}} </b> </p>
+                    <p> Nombre: <b> {{pokemonSeleccionado.nombre}} </b> </p>
+                    <p> Habilidades: <b> {{pokemonSeleccionado.habilidades | json}} </b> </p>
+                </div>
             </ng-template>
             <ng-template #lista>
                 <img src="../../../assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="...">
+                <div class="card-body"> </div>
             </ng-template>
-            <div class="card-body">
-                <!-- {{pokemonSeleccionado | json}} -->
-                <p> {{pokemonSeleccionado.id}} </p>
-                <p> {{pokemonSeleccionado.nombre}} </p>
-                <p> {{pokemonSeleccionado.habilidades | json}} </p>
-            </div>
         </div>
     </div> <!-- /Col Detalle -->
 </div> <!-- /Row Detalle -->
