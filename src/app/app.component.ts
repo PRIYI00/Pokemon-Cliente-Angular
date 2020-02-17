@@ -12,12 +12,12 @@ export class AppComponent {
   global : Array<any>;
 
   constructor() { 
-    console.trace('constructor AppComponent');
+    console.debug('constructor AppComponent');
 	  this.title = 'Pokemon-Cliente-Angular';
 	  this.global = GLOBAL;
   } // Constructor
 
   ngOnInit() {
-    console.trace('ngOnInit AppComponent');
+    console.debug('ngOnInit AppComponent');
   } // ngOnInit
 } // AppComponent

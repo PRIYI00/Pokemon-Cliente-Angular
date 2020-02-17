@@ -9,12 +9,12 @@ import { Injectable } from '@angular/core';
   })
 export class PokemonService implements IPokemonService {
     constructor(private http: HttpClient) { 
-        console.trace("PokemonService Constructor");
+        console.debug("PokemonService Constructor");
     }
 
     getAllPokemon(): Observable<Pokemon[]> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon`;
-        console.trace("PokemonService getAllPokemon " + url);
+        console.debug("PokemonService getAllPokemon " + url);
         return this.http.get<Pokemon[]>(url);
     }    
     getPokemon(nombre: string): Observable<Pokemon[]> {
@@ -22,16 +22,22 @@ export class PokemonService implements IPokemonService {
     }
     getPokemonById(id_pokemon: number): Observable<Pokemon> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
-        console.trace("PokemonService getPokemonById " + url);
+        console.debug("PokemonService getPokemonById " + url);
         return this.http.get<Pokemon>(url);
     }
     deletePokemon(id_pokemon: number): Observable<Pokemon> {
-        throw new Error("Method not implemented.");
+        const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
+        console.debug("PokemonService deletePokemon " + url);
+        return this.http.delete<Pokemon>(url);
     }
     updatePokemon(id_pokemon: number, pokemon: Pokemon): Observable<Pokemon> {
-        throw new Error("Method not implemented.");
+        const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
+        console.debug("PokemonService updatePokemon " + url);
+        return this.http.put<Pokemon>(url, pokemon);
     }
     createPokemon(pokemon: Pokemon): Observable<Pokemon> {
-        throw new Error("Method not implemented.");
+        const url = `http://localhost:8080/pokemon-rest/api/pokemon`;
+        console.debug("PokemonService createPokemon " + url);
+        return this.http.post<Pokemon>(url, pokemon);
     }
 }

@@ -20,14 +20,13 @@
                         <b> {{pokemon.nombre}} </b>
                     </div>
                     <div class="col">
-                        <button class="text-danger"> <i class="fas fa-trash"></i> </button>
+                        <button class="text-danger" (click) = "eliminarPokemon(pokemon)"> <i class="fas fa-trash"></i> </button>
                     </div>
                 </div>
             </li>
         </ul>
     </div> <!-- /Col Listado -->
     <div class="col-7"> <!-- Col Detalle -->
-        <button class="btn btn-primary btn-block mb-3"> Crear Pokemon </button>
         <div class="row">
             <div class="col">
                 <div class="card">

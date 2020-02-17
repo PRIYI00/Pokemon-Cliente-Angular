@@ -14,6 +14,7 @@ export class BackofficeComponent implements OnInit {
   title: string;
   pokemons: Array<Pokemon>;
   pokemonSeleccionado: Pokemon;
+  pokemonEliminado: Pokemon;
   busqueda: string;
   formularioPokemon: FormGroup;
 
@@ -57,13 +58,57 @@ export class BackofficeComponent implements OnInit {
     );
   } // ListarPokemons
 
+  eliminarPokemon(pokemon: Pokemon) {
+    console.debug('Vamos a Eliminar este Pokemon %o ', pokemon);
+    if (confirm('¿Estas Seguro?')) {
+      console.debug('Confirmado Eliminacion');
+      this.servicioPokemon.deletePokemon(pokemon.id).subscribe(() => {
+          console.debug('Eliminar en BackOfficeComponent %o ', pokemon);
+          this.pokemonEliminado = pokemon;
+          this.listarPokemons();
+        }
+      );
+    } else {
+      console.trace('Cancelado Eliminacion');
+    }
+  } // Eliminar Pokemon
+
   modificarPokemon(pokemon: Pokemon) {
     console.debug('Vamos a Modificar el Pokemon %o ', pokemon);
+    this.formularioPokemon.get('id').setValue(pokemon.id);
     this.formularioPokemon.get('nombre').setValue(pokemon.nombre);
   } // Modificar Pokemon
 
   enviar(values: any) {
     console.debug('BackOfficeComponent Enviar Formulario Pokemon %o ', values);
+    console.debug(values.id);
+    if (values.id === 0) {
+      let pokemon = new Pokemon();
+      this.servicioPokemon.createPokemon(pokemon).subscribe(
+        datos => {
+          console.debug('Estas en el Subscribe');
+          pokemon.nombre = values.nombre;
+        },
+        error => {
+          console.warn('Ha Ocurrido algun Error');
+        },
+        () => {
+          console.debug('Esto se hace Siempre');
+        }
+      );
+    } else {
+      this.servicioPokemon.updatePokemon(values.id, values).subscribe(
+        datos => {
+          console.debug('Estas en el Subscribe');
+        },
+        error => {
+          console.warn('Ha Ocurrido algun Error');
+        },
+        () => {
+          console.debug('Esto se hace Siempre');
+        }
+      );
+    }
   } // Enviar
 
 } // BackOfficeComponent
