@@ -13,6 +13,7 @@ import { PokemonPipe } from './pipes/pokemon.pipe';
 import { NavbarComponent } from './componentes/navbar/navbar.component';
 import { BackofficeComponent } from './paginas/backoffice/backoffice.component';
 import { LoginComponent } from './paginas/login/login.component';
+import { MensajeComponent } from './componentes/mensaje/mensaje.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { LoginComponent } from './paginas/login/login.component';
     PokemonPipe,
     NavbarComponent,
     BackofficeComponent,
-    LoginComponent
+    LoginComponent,
+    MensajeComponent
   ],
   imports: [
     NgbModule,
