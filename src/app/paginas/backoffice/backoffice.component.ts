@@ -13,6 +13,7 @@ export class BackofficeComponent implements OnInit {
 
   title: string;
   pokemons: Array<Pokemon>;
+  habilidades: Array<string>;
   pokemonSeleccionado: Pokemon;
   pokemonEliminado: Pokemon;
   pokemonCreado: Pokemon;
@@ -39,6 +40,14 @@ export class BackofficeComponent implements OnInit {
   ngOnInit() {
     console.debug('BackOfficeComponent ngOnInit');
     this.listarPokemons();
+
+    // Habilidades sin repeticion
+    this.habilidades = this.pokemons.reduce((p, c, i, a) => {
+      return p.concat(c.habilidades);
+    }, []).filter((el, index, array) => {
+      console.debug(el, index, array);
+      return array.indexOf(el) === index;
+    });
   } // ngOnInit
 
   private listarPokemons(): void {

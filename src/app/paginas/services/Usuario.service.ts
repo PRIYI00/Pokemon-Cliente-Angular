@@ -11,14 +11,14 @@ export class UsuarioService implements IUsuarioService {
     private usuario: Usuario;
 
     constructor() { 
-        console.trace('UsuariosService Constructor');
+        console.debug('UsuariosService Constructor');
         this.storage = window.sessionStorage;
         this.isLogged = false;
         this.usuario = undefined;
     } // Constructor
 
     estaLogeado(): boolean {
-        console.trace('UsuarioService estaLogeado');
+        console.debug('UsuarioService estaLogeado');
         const estaLog = this.storage.getItem('isLogged');
         if (estaLog) {
             return true;
@@ -28,14 +28,14 @@ export class UsuarioService implements IUsuarioService {
     }
 
     login(nombre: string, password: string): Usuario {
-        console.trace('UsuariosService Login nombre %s password %s', nombre, password);
+        console.debug('UsuariosService Login nombre %s password %s', nombre, password);
         const NOMBRE = 'admin';
         const PASS = 'admin123';
 
         let usuarioBuscar: Usuario;
 
         if (NOMBRE === nombre && PASS === password) {
-            console.trace('Usuario Encontrado.');
+            console.debug('Usuario Encontrado.');
             // Crear Usuario.
             usuarioBuscar = new Usuario();
             usuarioBuscar.nombre = nombre;
@@ -44,7 +44,7 @@ export class UsuarioService implements IUsuarioService {
             // Marcar que esta Logeado.
             this.storage.setItem('isLogged', true);
         } else {
-            console.trace('Usuario no Encontrado.');
+            console.debug('Usuario no Encontrado.');
             this.storage.setItem('isLogged', false);
         }
 
@@ -52,7 +52,7 @@ export class UsuarioService implements IUsuarioService {
     } // Login
 
     cerrarSesion() {
-        console.trace('Metodo Cerrar Sesion UsuarioService');
+        console.debug('Metodo Cerrar Sesion UsuarioService');
         this.storage.removeItem('isLogged');
     } // Cerrar Sesion
 }

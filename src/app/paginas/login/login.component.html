@@ -1,16 +1,10 @@
 <h1> Iniciar Sesión. </h1>
 
-<h2> Formulario Reactivo. </h2>
-
 <div class="row">
     <div class="col">
-
-        <pre> {{formulario.value | json}} </pre>
-        <pre> {{formulario.status | json}} </pre>
-
         <form [formGroup] = "formulario" (ngSubmit) = "enviar(formulario.value)">
             <small *ngIf="formulario.controls.nombre.invalid && formulario.controls.nombre.dirty"
-                class="text-danger">Minimo 2 caracteres Maximo 100</small>
+                class="text-danger"> Minimo 2 caracteres Maximo 100 </small>
 
             <small *ngIf="formulario.controls.nombre.valid"
                 class="text-success"> Nombre correcto </small> 
@@ -20,7 +14,7 @@
                 class = "form-control"/>
 
             <small *ngIf="formulario.controls.password.invalid && formulario.controls.password.dirty"
-                class="text-danger" >Minimo 6 caracteres Maximo 8 </small>
+                class="text-danger" > Minimo 6 caracteres Maximo 8 </small>
 
             <small *ngIf="formulario.controls.password.valid"
                 class="text-success"> Contraseña Correcta </small> 
