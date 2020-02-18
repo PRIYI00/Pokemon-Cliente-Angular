@@ -9,8 +9,18 @@
             <li class="nav-item active">
                 <a [routerLink]="['/']" routerLinkActive="router-link-active" class="nav-link"> Inicio </a>
             </li>
-            <li class="nav-item active">
-                <a [routerLink]="['/backoffice']" routerLinkActive="router-link-active" class="nav-link"> BackOffice </a>
+
+            <!-- Rutas si el Usuario esta Logeado o no -->
+            <li class="nav-item">
+                <a *ngIf="!usuarioService.estaLogeado()" [routerLink]="'/login'" routerLinkActive="" class="nav-link"> Iniciar Sesión </a>
+            </li>
+      
+            <li class="nav-item">
+                <a *ngIf="usuarioService.estaLogeado()" [routerLink]="'/backoffice'" routerLinkActive="" class="nav-link"> Backoffice </a>
+            </li>
+      
+            <li class="nav-item">
+                <a *ngIf="usuarioService.estaLogeado()" (click)="salir()" class="nav-link text-danger"> Cerrar Sesión </a>
             </li>
         </ul>  
     </div>
