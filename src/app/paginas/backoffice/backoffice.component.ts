@@ -15,12 +15,12 @@ export class BackofficeComponent implements OnInit {
   pokemons: Array<Pokemon>;
   pokemonSeleccionado: Pokemon;
   pokemonEliminado: Pokemon;
+  pokemonCreado: Pokemon;
+  pokemonModificado: Pokemon;
   busqueda: string;
   formularioPokemon: FormGroup;
 
-  constructor(private builder: FormBuilder, 
-              private router: Router, 
-              private servicioPokemon: PokemonService) { 
+  constructor(private builder: FormBuilder, private servicioPokemon: PokemonService) { 
     console.debug('BackOfficeComponent Constructor');
     this.title = 'Administración Pokemon';
     this.busqueda = '';
@@ -65,6 +65,7 @@ export class BackofficeComponent implements OnInit {
       this.servicioPokemon.deletePokemon(pokemon.id).subscribe(() => {
           console.debug('Eliminar en BackOfficeComponent %o ', pokemon);
           this.pokemonEliminado = pokemon;
+          this.ponerPorDefecto();
           this.listarPokemons();
         }
       );
@@ -84,10 +85,13 @@ export class BackofficeComponent implements OnInit {
     console.debug(values.id);
     if (values.id === 0) {
       let pokemon = new Pokemon();
+      pokemon.nombre = values.nombre;
       this.servicioPokemon.createPokemon(pokemon).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
-          pokemon.nombre = values.nombre;
+          this.pokemonCreado = datos;
+          this.ponerPorDefecto();
+          this.listarPokemons();
         },
         error => {
           console.warn('Ha Ocurrido algun Error');
@@ -100,6 +104,9 @@ export class BackofficeComponent implements OnInit {
       this.servicioPokemon.updatePokemon(values.id, values).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
+          this.pokemonModificado = datos;
+          this.ponerPorDefecto();
+          this.listarPokemons();
         },
         error => {
           console.warn('Ha Ocurrido algun Error');
@@ -109,6 +116,24 @@ export class BackofficeComponent implements OnInit {
         }
       );
     }
-  } // Enviar
+  } // Enviar Formulario
+
+  private ponerPorDefecto() {
+    if(this.pokemonModificado) {
+      this.pokemonEliminado = undefined;
+      this.pokemonCreado = undefined;
+    }
+    if(this.pokemonCreado) {
+      this.pokemonEliminado = undefined;
+      this.pokemonModificado = undefined;
+    }
+    if(this.pokemonEliminado) {
+      this.pokemonCreado = undefined;
+      this.pokemonModificado = undefined;
+    }
+    this.pokemonSeleccionado = undefined;
+    this.formularioPokemon.get('id').setValue(0);
+    this.formularioPokemon.get('nombre').setValue('');
+  } // Poner Por defecto
 
 } // BackOfficeComponent

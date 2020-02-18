@@ -4,7 +4,22 @@
 
 <div class="row mb-3">
     <div class="col"> <!-- Col Busqueda -->
-        <input type="search" [(ngModel)]="busqueda" class="form-control" placeholder="Busca Pokemons por su Nombre.">         
+        <input type="search" [(ngModel)]="busqueda" class="form-control" placeholder="Busca Pokemons por su Nombre.">    
+        <ng-template [ngIf]="pokemonEliminado">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                El Pokemon con ID - <b> {{pokemonEliminado.id}} </b> y con Nombre - <b> {{pokemonEliminado.nombre}} </b> ha sido Eliminada.
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="pokemonCreado">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                El Pokemon con ID - <b> {{pokemonCreado.id}} </b> y con Nombre - <b> {{pokemonCreado.nombre}} </b> se ha Creado Correctamente.
+            </div>
+        </ng-template> 
+        <ng-template [ngIf]="pokemonModificado">
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                El Pokemon con ID - <b> {{pokemonModificado.id}} </b> y con Nombre - <b> {{pokemonModificado.nombre}} </b> se ha Modificado Correctamente.
+            </div>
+        </ng-template>      
     </div> <!-- /Col Busqueda -->
 </div>
 
@@ -47,6 +62,7 @@
                 </div>
             </div>
             <div class="col">
+                <!-- {{formularioPokemon.value | json}} -->
                 <form [formGroup] = "formularioPokemon" (ngSubmit) = "enviar(formularioPokemon.value)">
                     <small *ngIf="formularioPokemon.controls.nombre.invalid && formularioPokemon.controls.nombre.dirty"
                         class="text-danger" >Minimo 2 caracteres Maximo 50 </small>
