@@ -18,7 +18,9 @@ export class PokemonService implements IPokemonService {
         return this.http.get<Pokemon[]>(url);
     }    
     getPokemon(nombre: string): Observable<Pokemon[]> {
-        throw new Error("Method not implemented.");
+        const url = `http://localhost:8080/pokemon-rest/api/pokemon/${nombre}/`;
+        console.debug("PokemonService getAllPokemonByNombre " + url);
+        return this.http.get<Pokemon[]>(url);
     }
     getPokemonById(id_pokemon: number): Observable<Pokemon> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
@@ -33,7 +35,7 @@ export class PokemonService implements IPokemonService {
     updatePokemon(id_pokemon: number, pokemon: Pokemon): Observable<Pokemon> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon/${id_pokemon}/`;
         console.debug("PokemonService updatePokemon " + url);
-        return this.http.put<Pokemon>(url, pokemon);
+        return this.http.post<Pokemon>(url, pokemon);
     }
     createPokemon(pokemon: Pokemon): Observable<Pokemon> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon`;
