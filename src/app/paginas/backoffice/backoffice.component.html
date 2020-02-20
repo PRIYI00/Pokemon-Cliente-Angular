@@ -1,6 +1,7 @@
 <h2> {{title}} </h2>
 
 <!-- {{pokemons | json}} -->
+<!-- {{habilidades | json}} -->
 
 <div class="row mb-3">
     <div class="col"> <!-- Col Busqueda -->
@@ -62,7 +63,7 @@
                 </div>
             </div>
             <div class="col">
-                <!-- {{formularioPokemon.value | json}} -->
+                {{formularioPokemon.value | json}}
                 <form [formGroup] = "formularioPokemon" (ngSubmit) = "enviar(formularioPokemon.value)">
                     <small *ngIf="formularioPokemon.controls.nombre.invalid && formularioPokemon.controls.nombre.dirty"
                         class="text-danger" >Minimo 2 caracteres Maximo 50 </small>
@@ -73,7 +74,27 @@
                     <input type="text" formControlName = "nombre"
                         placeholder = "Nombre Pokemon"
                         class = "form-control mb-2"/>
+
+                    <small *ngIf="formularioPokemon.controls.imagen.invalid && formularioPokemon.controls.imagen.dirty"
+                        class="text-danger" >Minimo 2 caracteres Maximo 250 </small>
+        
+                    <small *ngIf="formularioPokemon.controls.imagen.valid"
+                        class="text-success"> Imagen del Pokemon Correcta </small> 
+
+                    <input type="text" formControlName = "imagen"
+                        placeholder = "Imagen Pokemon"
+                        class = "form-control mb-2"/>
                     
+                    <div *ngFor="let habilidad of habilidades">
+                        <label>
+                            <input type="checkbox"
+                                    name="habilidad"
+                                    (change)="checkCambiado(habilidad)"
+                                    value="{{habilidad.id_habilidad}}"/>
+                                {{habilidad.habilidad}}
+                        </label>
+                    </div>
+
                     <input  type="submit" 
                         [disabled] = "formularioPokemon.invalid" 
                         value="Enviar"

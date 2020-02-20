@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class PokemonService implements IPokemonService {
     constructor(private http: HttpClient) { 
         console.debug("PokemonService Constructor");
-    }
+    } // Constructor
 
     getAllPokemon(): Observable<Pokemon[]> {
         const url = `http://localhost:8080/pokemon-rest/api/pokemon`;
@@ -42,4 +42,4 @@ export class PokemonService implements IPokemonService {
         console.debug("PokemonService createPokemon " + url);
         return this.http.post<Pokemon>(url, pokemon);
     }
-}
+} // PokemonService

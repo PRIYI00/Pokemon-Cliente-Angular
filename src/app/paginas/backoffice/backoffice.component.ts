@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Pokemon } from 'src/app/model/pokemon';
 import { PokemonService } from '../services/Pokemon.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Habilidad } from 'src/app/model/habilidad';
+import { HabilidadService } from '../services/Habilidad.service';
 
 @Component({
   selector: 'app-backoffice',
@@ -13,19 +15,23 @@ export class BackofficeComponent implements OnInit {
 
   title: string;
   pokemons: Array<Pokemon>;
-  habilidades: Array<string>;
+  habilidades: Array<Habilidad>;
   pokemonSeleccionado: Pokemon;
   pokemonEliminado: Pokemon;
   pokemonCreado: Pokemon;
   pokemonModificado: Pokemon;
   busqueda: string;
   formularioPokemon: FormGroup;
+  formularioHabilidades: FormArray;
 
-  constructor(private builder: FormBuilder, private servicioPokemon: PokemonService) { 
+  constructor(private builder: FormBuilder, 
+              private servicioPokemon: PokemonService,
+              private servicioHabilidad: HabilidadService) { 
     console.debug('BackOfficeComponent Constructor');
     this.title = 'Administración Pokemon';
     this.busqueda = '';
     this.pokemons = [];
+    this.habilidades = [];
 
     // Construir Formulario.
     this.formularioPokemon = this.builder.group({
@@ -33,39 +39,55 @@ export class BackofficeComponent implements OnInit {
       id: new FormControl(0),
       nombre: ['', Validators.compose(
         [Validators.required, Validators.minLength(2), Validators.maxLength(50)]
-      )]
-    });
+      )],
+      imagen: ['', Validators.compose(
+        [Validators.required, Validators.minLength(2), Validators.maxLength(250)]
+      )],
+      fHabilidades: this.builder.array([], Validators.compose(
+        [Validators.required, Validators.minLength(1)]
+      ))
+    }); // Formulario Pokemon Constructor
+    this.formularioHabilidades = this.formularioPokemon.get('fHabilidades') as FormArray;
   } // Constructor
 
   ngOnInit() {
     console.debug('BackOfficeComponent ngOnInit');
     this.listarPokemons();
-
-    // Habilidades sin repeticion
-    this.habilidades = this.pokemons.reduce((p, c, i, a) => {
-      return p.concat(c.habilidades);
-    }, []).filter((el, index, array) => {
-      console.debug(el, index, array);
-      return array.indexOf(el) === index;
-    });
+    this.listarHabilidades();
   } // ngOnInit
 
   private listarPokemons(): void {
     console.debug('Metodo Listar Pokemons');
-    // Llamar al Service para Optener Tareas.
+    // Llamar al Service para Optener Pokemons.
     this.servicioPokemon.getAllPokemon().subscribe(
       datos => {
         console.debug('Estas en el Subscribe');
         this.pokemons = datos;
       },
       error => {
-        console.warn('Ha Ocurrido algun Error');
+        console.warn(error);
       },
       () => {
         console.debug('Esto se hace Siempre');
       }
     );
   } // ListarPokemons
+
+  private listarHabilidades(): void {
+    console.debug('Metodo Listar Habilidades');
+    this.servicioHabilidad.getAllHabilidades().subscribe(
+      datos => {
+        console.debug('Estas en el Subscribe');
+        this.habilidades = datos;
+      },
+      error => {
+        console.warn(error);
+      },
+      () => {
+        console.debug('Esto se hace Siempre');
+      }
+    );
+  } // Listar Habilidades
 
   eliminarPokemon(pokemon: Pokemon) {
     console.debug('Vamos a Eliminar este Pokemon %o ', pokemon);
@@ -79,7 +101,7 @@ export class BackofficeComponent implements OnInit {
         }
       );
     } else {
-      console.trace('Cancelado Eliminacion');
+      console.debug('Cancelado Eliminacion');
     }
   } // Eliminar Pokemon
 
@@ -87,6 +109,7 @@ export class BackofficeComponent implements OnInit {
     console.debug('Vamos a Modificar el Pokemon %o ', pokemon);
     this.formularioPokemon.get('id').setValue(pokemon.id);
     this.formularioPokemon.get('nombre').setValue(pokemon.nombre);
+    this.formularioPokemon.get('imagen').setValue(pokemon.imagen);
   } // Modificar Pokemon
 
   enviar(values: any) {
@@ -95,6 +118,7 @@ export class BackofficeComponent implements OnInit {
     if (values.id === 0) {
       let pokemon = new Pokemon();
       pokemon.nombre = values.nombre;
+      pokemon.imagen = values.imagen;
       this.servicioPokemon.createPokemon(pokemon).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
@@ -103,7 +127,7 @@ export class BackofficeComponent implements OnInit {
           this.listarPokemons();
         },
         error => {
-          console.warn('Ha Ocurrido algun Error');
+          console.warn(error);
         },
         () => {
           console.debug('Esto se hace Siempre');
@@ -118,7 +142,7 @@ export class BackofficeComponent implements OnInit {
           this.listarPokemons();
         },
         error => {
-          console.warn('Ha Ocurrido algun Error');
+          console.warn(error);
         },
         () => {
           console.debug('Esto se hace Siempre');
@@ -143,6 +167,30 @@ export class BackofficeComponent implements OnInit {
     this.pokemonSeleccionado = undefined;
     this.formularioPokemon.get('id').setValue(0);
     this.formularioPokemon.get('nombre').setValue('');
+    this.formularioPokemon.get('imagen').setValue('');
   } // Poner Por defecto
 
+  private crearFormGroupHabilidades(): FormGroup {
+    return this.builder.group({
+              id_habilidad: new FormControl(0),
+              habilidad: ['', Validators.compose(
+                [Validators.required, Validators.minLength(2), Validators.maxLength(50)]
+              )]
+    });
+  } // CrearFormGroupHabilidades
+
+  checkCambiado(habilidadSeleccionada: any) {
+    habilidadSeleccionada.checked = !habilidadSeleccionada.checked;
+    console.debug('CheckCambiado %o', habilidadSeleccionada);
+
+    if(habilidadSeleccionada.checked) {
+      const habilidad = this.crearFormGroupHabilidades();
+      habilidad.get('id_habilidad').setValue(habilidadSeleccionada.id);
+      habilidad.get('habilidad').setValue(habilidadSeleccionada.habilidad);
+
+      this.formularioHabilidades.push(habilidad);
+    } else {
+      
+    }
+  } // CheckCambiado
 } // BackOfficeComponent
