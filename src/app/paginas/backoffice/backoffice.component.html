@@ -64,7 +64,7 @@
             </div>
             <div class="col">
                 {{formularioPokemon.value | json}}
-                <form [formGroup] = "formularioPokemon" (ngSubmit) = "enviar(formularioPokemon.value)">
+                <form [formGroup] = "formularioPokemon" (ngSubmit) = "enviar(formularioPokemon.value)" class="mb-2">
                     <small *ngIf="formularioPokemon.controls.nombre.invalid && formularioPokemon.controls.nombre.dirty"
                         class="text-danger" >Minimo 2 caracteres Maximo 50 </small>
         
@@ -85,12 +85,13 @@
                         placeholder = "Imagen Pokemon"
                         class = "form-control mb-2"/>
                     
-                    <div *ngFor="let habilidad of habilidades">
+                    <div *ngFor="let habilidad of habilidades; let i = index;">
                         <label>
                             <input type="checkbox"
                                     name="habilidad"
                                     (change)="checkCambiado(habilidad)"
-                                    value="{{habilidad.id}}"/>
+                                    value="{{habilidad.id}}"
+                                    [checked]="habilidad.checked"/>
                                 {{habilidad.habilidad}}
                         </label>
                     </div>
@@ -100,6 +101,10 @@
                         value="Enviar"
                         class="btn btn-primary btn-block">
                 </form>
+
+                <button class="btn btn-primary btn-block" 
+                            (click) = "restablecerValores()"> Restablecer Valores </button>
+
             </div>
         </div>
     </div> <!-- /Col Detalle -->

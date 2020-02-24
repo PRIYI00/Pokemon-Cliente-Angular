@@ -15,7 +15,7 @@ export class BackofficeComponent implements OnInit {
 
   title: string;
   pokemons: Array<Pokemon>;
-  habilidades: Array<Habilidad>;
+  habilidades: Array<any>;
   pokemonSeleccionado: Pokemon;
   pokemonEliminado: Pokemon;
   pokemonCreado: Pokemon;
@@ -110,16 +110,36 @@ export class BackofficeComponent implements OnInit {
     this.formularioPokemon.get('id').setValue(pokemon.id);
     this.formularioPokemon.get('nombre').setValue(pokemon.nombre);
     this.formularioPokemon.get('imagen').setValue(pokemon.imagen);
+    this.resetFormArray(this.formularioHabilidades);
+
+    if(pokemon.habilidades.length > 0) {
+      pokemon.habilidades.forEach(poke => {
+        const habilidad = this.crearFormGroupHabilidades();
+        habilidad.get('id').setValue(poke.id);
+        habilidad.get('habilidad').setValue(poke.habilidad);
+
+        this.formularioHabilidades.push(habilidad);
+
+        this.habilidades.forEach(habi => {
+          if (poke.id === habi.id) {
+            habi.checked = true;
+          }
+        });
+      });
+    }
   } // Modificar Pokemon
 
   enviar(values: any) {
     console.debug('BackOfficeComponent Enviar Formulario Pokemon %o ', values);
     console.debug(values.id);
-    if (values.id === 0) {
-      let pokemon = new Pokemon();
-      pokemon.nombre = values.nombre;
-      pokemon.imagen = values.imagen;
-      pokemon.habilidades = values.fHabilidades;
+    
+    let pokemon = new Pokemon();
+    pokemon.id = values.id;
+    pokemon.nombre = values.nombre;
+    pokemon.imagen = values.imagen;
+    pokemon.habilidades = values.fHabilidades;
+
+    if (pokemon.id === 0) {
       this.servicioPokemon.createPokemon(pokemon).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
@@ -135,7 +155,7 @@ export class BackofficeComponent implements OnInit {
         }
       );
     } else {
-      this.servicioPokemon.updatePokemon(values.id, values).subscribe(
+      this.servicioPokemon.updatePokemon(pokemon.id, pokemon).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
           this.pokemonModificado = datos;
@@ -150,6 +170,8 @@ export class BackofficeComponent implements OnInit {
         }
       );
     }
+
+    this.restablecerValores();
   } // Enviar Formulario
 
   private ponerPorDefecto() {
@@ -184,14 +206,31 @@ export class BackofficeComponent implements OnInit {
     habilidadSeleccionada.checked = !habilidadSeleccionada.checked;
     console.debug('CheckCambiado %o', habilidadSeleccionada);
 
-    if(habilidadSeleccionada.checked) {
-      const habilidad = this.crearFormGroupHabilidades();
-      habilidad.get('id').setValue(habilidadSeleccionada.id);
-      habilidad.get('habilidad').setValue(habilidadSeleccionada.habilidad);
+    const habilidad = this.crearFormGroupHabilidades();
+    habilidad.get('id').setValue(habilidadSeleccionada.id);
+    habilidad.get('habilidad').setValue(habilidadSeleccionada.habilidad);
 
+    if(habilidadSeleccionada.checked === false) {
+      this.formularioHabilidades.removeAt(this.formularioHabilidades.value.findIndex(el => el.id === habilidadSeleccionada.id));
+    } else {   
       this.formularioHabilidades.push(habilidad);
-    } else {
-      
     }
   } // CheckCambiado
+
+  restablecerValores() {
+    console.log('Restablecemos los Valores del Formulario.');
+
+    this.habilidades.forEach(habi => {habi.checked = false});
+
+    this.formularioPokemon.get('id').setValue(0);
+    this.formularioPokemon.get('nombre').setValue('');
+    this.formularioPokemon.get('imagen').setValue('');
+    this.resetFormArray(this.formularioHabilidades);
+  } // RestablecerValores
+
+  resetFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
+    }
+  } // ResetFormArray
 } // BackOfficeComponent
