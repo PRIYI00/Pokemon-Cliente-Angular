@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
     if (uLogeado) {
       console.trace('Usuario logeado con exito %o', uLogeado);
-      this.router.navigate(['privado']);
+      this.router.navigate(['backoffice']);
     } else {
       console.warn('Usuario NO logeado');
       // TODO cambiar alert

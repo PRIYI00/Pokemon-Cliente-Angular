@@ -119,6 +119,7 @@ export class BackofficeComponent implements OnInit {
       let pokemon = new Pokemon();
       pokemon.nombre = values.nombre;
       pokemon.imagen = values.imagen;
+      pokemon.habilidades = values.fHabilidades;
       this.servicioPokemon.createPokemon(pokemon).subscribe(
         datos => {
           console.debug('Estas en el Subscribe');
@@ -172,7 +173,7 @@ export class BackofficeComponent implements OnInit {
 
   private crearFormGroupHabilidades(): FormGroup {
     return this.builder.group({
-              id_habilidad: new FormControl(0),
+              id: new FormControl(0),
               habilidad: ['', Validators.compose(
                 [Validators.required, Validators.minLength(2), Validators.maxLength(50)]
               )]
@@ -185,7 +186,7 @@ export class BackofficeComponent implements OnInit {
 
     if(habilidadSeleccionada.checked) {
       const habilidad = this.crearFormGroupHabilidades();
-      habilidad.get('id_habilidad').setValue(habilidadSeleccionada.id);
+      habilidad.get('id').setValue(habilidadSeleccionada.id);
       habilidad.get('habilidad').setValue(habilidadSeleccionada.habilidad);
 
       this.formularioHabilidades.push(habilidad);
