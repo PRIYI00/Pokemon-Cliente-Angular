@@ -9,7 +9,7 @@ import { UsuarioService } from 'src/app/paginas/services/Usuario.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router, private usuarioService: UsuarioService) { 
+  constructor(private router: Router, public usuarioService: UsuarioService) { 
     console.debug('NavbarComponent Constructor');
   } // Constructor
 

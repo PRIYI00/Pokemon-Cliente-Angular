@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IHabilidadService } from './IHabilidad.service';
 import { Habilidad } from 'src/app/model/habilidad';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -13,27 +14,27 @@ export class HabilidadService implements IHabilidadService {
     } // Constructor HabilidadService
 
     getAllHabilidades(): Observable<Habilidad[]> {
-        const url = `http://localhost:8080/pokemon-rest/api/habilidad`;
+        const url = `${environment.EndPoint}/api/habilidad`;
         console.debug("HabilidadService getAllHabilidades " + url);
         return this.http.get<Habilidad[]>(url);
     }    
     getHabilidadById(id_habilidad: number): Observable<Habilidad> {
-        const url = `http://localhost:8080/pokemon-rest/api/habilidad/${id_habilidad}`;
+        const url = `${environment.EndPoint}/api/habilidad/${id_habilidad}`;
         console.debug("HabilidadService getHabilidadById " + url);
         return this.http.get<Habilidad>(url);
     }
     deleteHabilidad(id_habilidad: number): Observable<Habilidad> {
-        const url = `http://localhost:8080/pokemon-rest/api/habilidad/${id_habilidad}`;
+        const url = `${environment.EndPoint}/api/habilidad/${id_habilidad}`;
         console.debug("HabilidadService deleteHabilidad " + url);
         return this.http.delete<Habilidad>(url);
     }
     updateHabilidad(id_habilidad: number, habilidad: Habilidad): Observable<Habilidad> {
-        const url = `http://localhost:8080/pokemon-rest/api/habilidad/${id_habilidad}`;
+        const url = `${environment.EndPoint}/api/habilidad/${id_habilidad}`;
         console.debug("HabilidadService updateHabilidad " + url);
         return this.http.put<Habilidad>(url, habilidad);
     }
     createHabilidad(habilidad: Habilidad): Observable<Habilidad> {
-        const url = `http://localhost:8080/pokemon-rest/api/habilidad`;
+        const url = `${environment.EndPoint}/api/habilidad`;
         console.debug("HabilidadService createHabilidad " + url);
         return this.http.post<Habilidad>(url, habilidad);
     }

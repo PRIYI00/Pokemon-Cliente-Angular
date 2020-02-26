@@ -50,14 +50,22 @@
                         <img src="{{pokemonSeleccionado.imagen}}" class="card-img-top" alt="...">
                         <div class="card-body row">
                             <!-- {{pokemonSeleccionado | json}} -->
-                            <p> ID: <b> {{pokemonSeleccionado.id}} </b> </p>
-                            <p> Nombre: <b> {{pokemonSeleccionado.nombre}} </b> </p>
-                            <p> Habilidades: <b> {{pokemonSeleccionado.habilidades | json}} </b> </p>
+                            <ul class="list-group list-group-flush"> 
+                                <li class="list-group-item"> <h5> ID: {{pokemonSeleccionado.id}} </h5> </li>
+                                <li class="list-group-item"> <h5> Nombre: {{pokemonSeleccionado.nombre}} </h5> </li>
+                                <li class="list-group-item"> <h5> Lista Habilidades: </h5> </li>
+                                <li class="list-group-item" 
+                                    *ngFor="let habilidad of pokemonSeleccionado.habilidades">
+                                    {{habilidad.habilidad}}
+                                </li>
+                            </ul>
                             <button class="btn btn-primary btn-block" (click) = "modificarPokemon(pokemonSeleccionado)"> Modificar Pokemon </button> 
                         </div>
                     </ng-template>
                     <ng-template #lista>
-                        <img src="../../../assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="...">
+                        <!-- Esta Ruta de la Imagen es cuando trabajas en Local -->
+                        <img src="../../../assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="..."> <!-- Local -->
+                        <!-- <img src="assets/image/pokemonletsgo_900154_manual.jpg" class="card-img-top" alt="...">  Producción -->
                         <div class="card-body"> </div>
                     </ng-template>
                 </div>
